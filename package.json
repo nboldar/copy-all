@@ -1,0 +1,26 @@
+{
+  "name": "copy-all",
+  "version": "1.0.0",
+  "description": "Function for copying content of source directory to specified directory",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nboldar/copy-all.git"
+  },
+  "keywords": [
+    "nodejs",
+    "javascript"
+  ],
+  "author": "Nikolay Boldar",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/nboldar/copy-all/issues"
+  },
+  "homepage": "https://github.com/nboldar/copy-all#readme",
+  "dependencies": {
+    "node-read-directory": "^1.0.0"
+  }
+}
