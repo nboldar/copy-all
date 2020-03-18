@@ -11,21 +11,30 @@ const readDirectory = require('node-read-directory');
  */
 const copyToDest = async (destination, srcArr) => {
     try {
+        if (typeof destination !== 'string') throw  new Error('Path of read dir should be string');
+        destination = path.isAbsolute(destination) ? destination : path.resolve(process.cwd(), destination);
         for await (let entry of srcArr) {
-            let chunkData = entry.dir.split(entry.root)[1];
-            const destPath = destination + path.sep + chunkData;
+            let copyingFolderBaseName = entry.dir.split(entry.readDir)[1];
+            console.dir(copyingFolderBaseName, {showHidden: true, depth: 10, colors: true});
+            const destPath = destination + path.sep + copyingFolderBaseName;
             await fs.promises.mkdir(destPath, {recursive: true});
-            if (entry.type === 'file') {
+            const pathToSourceEntity = entry.dir + path.sep + entry.base;
+            const pathToDestEntity = destPath + path.sep + entry.base;
+            const stats = await fs.promises.stat(pathToSourceEntity);
+            if (stats.isFile()) {
                 await fs.promises.copyFile(
-                    entry.dir + path.sep + entry.base,
-                    destPath + path.sep + entry.base,
+                    pathToSourceEntity,
+                    pathToDestEntity,
                     fs.constants.COPYFILE_FICLONE)
+            } else {
+                await fs.promises.mkdir(pathToDestEntity, {recursive: true});
             }
         }
     } catch (err) {
         console.log(err);
     }
 };
+
 /**
  *
  * @param {String} source
