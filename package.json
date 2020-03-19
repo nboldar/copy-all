@@ -1,6 +1,6 @@
 {
   "name": "copy-all",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Function for copying content of source directory to specified directory",
   "main": "index.js",
   "scripts": {

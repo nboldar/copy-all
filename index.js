@@ -5,7 +5,7 @@ const path = require('path');
 const readDirectory = require('node-read-directory');
 
 /**
- * @param {String} destination is path where you want to copy путь к папке куда надо скопировать содержимое исходной папки
+ * @param {String} destination is path where you want to copy content
  * @param {Array} srcArr is array of objects with info about copying files
  * @returns {Promise<void>}
  */
@@ -14,12 +14,12 @@ const copyToDest = async (destination, srcArr) => {
         if (typeof destination !== 'string') throw  new Error('Path of read dir should be string');
         destination = path.isAbsolute(destination) ? destination : path.resolve(process.cwd(), destination);
         for await (let entry of srcArr) {
-            let copyingFolderBaseName = entry.dir.split(entry.readDir)[1];
-            console.dir(copyingFolderBaseName, {showHidden: true, depth: 10, colors: true});
+            const copyingFolderBaseName = entry.dir.split(entry.readDir)[1];
             const destPath = destination + path.sep + copyingFolderBaseName;
-            await fs.promises.mkdir(destPath, {recursive: true});
             const pathToSourceEntity = entry.dir + path.sep + entry.base;
             const pathToDestEntity = destPath + path.sep + entry.base;
+
+            await fs.promises.mkdir(destPath, {recursive: true});
             const stats = await fs.promises.stat(pathToSourceEntity);
             if (stats.isFile()) {
                 await fs.promises.copyFile(
